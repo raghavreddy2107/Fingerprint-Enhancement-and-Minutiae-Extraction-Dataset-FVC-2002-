@@ -1,27 +1,3 @@
-"""
-app.py  -  Latent: web front-end for the fingerprint pipeline + minutiae matcher.
-
-Run from the Scripts/ folder:
-
-    pip install flask opencv-python numpy scipy scikit-image
-    python app.py
-
-then open http://127.0.0.1:5000
-
-It reuses, unchanged:
-    fingerprint_pipeline.FingerprintPipeline   (image  -> minutiae)
-    minutiae_matcher.match_score / load_minutiae (minutiae vs minutiae -> score)
-
-Folder layout expected (same as your project):
-    code/
-        fingerprints/finger_1/f1_1.tif ...      (only used to show the enrolled print)
-        results/f1_1/minutiae.json ...          (the enrolled templates)
-        eval_output/summary.json                (optional: the EER threshold is read from it)
-        Scripts/app.py  (this file) + templates/index.html
-
-Optional: Scripts/names.json  ->  {"f1": "Alice Moreno", "f2": "Ravi Kumar", ...}
-"""
-
 from __future__ import annotations
 
 import base64

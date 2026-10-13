@@ -1,33 +1,3 @@
-"""
-fingerprint_pipeline_refactored.py  (v2)
------------------------------------------
-Drop-in replacement for the original pipeline: same class name
-(FingerprintPipeline), same run(input_path, output_dir) -> List[Minutia]
-signature, same minutiae.json format, so batch_run.py and
-biometric_evaluation.py keep working unchanged.
-
-What changed vs. v1 (and why it matters for matching accuracy)
-===============================================================
-v1 problems                                  v2 fix
--------------------------------------------  --------------------------------------
-Gabor wavelength 6px (ridges are ~9px apart) wavelength estimated from the image (FFT)
-Gabor bank "max over all 16 angles"          orientation-field-steered Gabor: each
- -> amplifies noise, creates fake ridges      pixel is filtered ONLY at its own ridge
-                                              direction (the standard enhancement)
-No foreground segmentation -> minutiae       variance-based ROI mask; minutiae near
- detected on background specks / borders      the ROI border are discarded
-adaptive threshold, 11px window, C=0         enhanced image is zero-mean, so a plain
- -> speckle, broken ridges                    >0 threshold is clean; tiny blobs/holes
-                                              (pores, ink specks) are removed
-Neighbour-count (==3) used as "bifurcation"  true crossing number (CN) on the skeleton
-No spur removal in the pipeline              iterative spur pruning (< min_spur_len)
-Ending angle = first perimeter pixel         angle = traced direction of the ridge
- (arbitrary); bifurcation angle = random      for ~10px, validated against the local
- vector sum                                   orientation field
-"Mixed pair" pruning deleted real minutiae   physically motivated pair rules (ridge
-                                              breaks, islands, spur remnants)
-"""
-
 from __future__ import annotations
 
 import json
