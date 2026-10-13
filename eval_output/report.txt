@@ -1,0 +1,54 @@
+======================================================================
+FINGERPRINT BIOMETRIC EVALUATION REPORT
+======================================================================
+
+Data dir               : ../results
+Gallery samples/finger  : 1
+Max impostor/probe      : 40
+Matcher dist threshold   : 9.0 px
+Matcher angle threshold  : 22.0 deg
+
+--- 1:1 VERIFICATION ---
+Genuine comparisons  : 280
+Impostor comparisons : 10920
+EER                  : 19.77%  (at threshold 0.339)
+AUC                  : 0.8694
+
+Operating point @ EER threshold:
+  threshold   : 0.3387
+  FAR         : 0.1989
+  FRR         : 0.1964
+  TAR         : 0.8036
+  TRR         : 0.8011
+  Accuracy    : 0.8012
+  BalancedAccuracy: 0.8023
+  Precision   : 0.0939
+  Recall      : 0.8036
+
+Operating point @ best-accuracy threshold:
+  threshold   : 0.4128
+  FAR         : 0.0307
+  FRR         : 0.3107
+  TAR         : 0.6893
+  TRR         : 0.9693
+  Accuracy    : 0.9623
+  BalancedAccuracy: 0.8293
+  Precision   : 0.3655
+  Recall      : 0.6893
+
+--- 1:N IDENTIFICATION ---
+Probes                : 280
+Rank-1 accuracy        : 61.43%
+CMC (rank: accuracy)   :
+  rank  1: 61.43%
+  rank  2: 66.79%
+  rank  3: 71.43%
+  rank  4: 73.21%
+  rank  5: 75.00%
+  rank  6: 77.50%
+  rank  7: 79.29%
+  rank  8: 80.36%
+  rank  9: 81.07%
+  rank 10: 81.43%
+
+======================================================================

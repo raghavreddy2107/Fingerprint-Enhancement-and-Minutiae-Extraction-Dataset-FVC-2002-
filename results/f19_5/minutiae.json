@@ -1,0 +1,275 @@
+[
+    {
+        "x": 100,
+        "y": 26,
+        "type": "Ending",
+        "angle": 196.7,
+        "confidence": 0.8239891529083252
+    },
+    {
+        "x": 211,
+        "y": 32,
+        "type": "Ending",
+        "angle": 145.01,
+        "confidence": 0.8288601636886597
+    },
+    {
+        "x": 152,
+        "y": 71,
+        "type": "Ending",
+        "angle": 16.7,
+        "confidence": 0.6505582928657532
+    },
+    {
+        "x": 216,
+        "y": 83,
+        "type": "Ending",
+        "angle": 318.01,
+        "confidence": 0.7961233854293823
+    },
+    {
+        "x": 65,
+        "y": 92,
+        "type": "Ending",
+        "angle": 45.0,
+        "confidence": 0.7772659659385681
+    },
+    {
+        "x": 119,
+        "y": 104,
+        "type": "Ending",
+        "angle": 48.37,
+        "confidence": 0.6992679238319397
+    },
+    {
+        "x": 164,
+        "y": 175,
+        "type": "Ending",
+        "angle": 101.31,
+        "confidence": 0.33540478348731995
+    },
+    {
+        "x": 43,
+        "y": 211,
+        "type": "Ending",
+        "angle": 68.2,
+        "confidence": 0.5370280742645264
+    },
+    {
+        "x": 297,
+        "y": 226,
+        "type": "Ending",
+        "angle": 303.69,
+        "confidence": 0.6837244629859924
+    },
+    {
+        "x": 251,
+        "y": 228,
+        "type": "Ending",
+        "angle": 303.69,
+        "confidence": 0.6520974040031433
+    },
+    {
+        "x": 187,
+        "y": 232,
+        "type": "Ending",
+        "angle": 321.34,
+        "confidence": 0.594011127948761
+    },
+    {
+        "x": 23,
+        "y": 233,
+        "type": "Ending",
+        "angle": 248.2,
+        "confidence": 0.7019965052604675
+    },
+    {
+        "x": 293,
+        "y": 244,
+        "type": "Ending",
+        "angle": 296.57,
+        "confidence": 0.6678084135055542
+    },
+    {
+        "x": 25,
+        "y": 248,
+        "type": "Ending",
+        "angle": 243.43,
+        "confidence": 0.7250193357467651
+    },
+    {
+        "x": 93,
+        "y": 248,
+        "type": "Ending",
+        "angle": 73.3,
+        "confidence": 0.7483871579170227
+    },
+    {
+        "x": 192,
+        "y": 261,
+        "type": "Ending",
+        "angle": 308.66,
+        "confidence": 0.6412416696548462
+    },
+    {
+        "x": 270,
+        "y": 263,
+        "type": "Ending",
+        "angle": 304.99,
+        "confidence": 0.6259869933128357
+    },
+    {
+        "x": 208,
+        "y": 269,
+        "type": "Ending",
+        "angle": 311.99,
+        "confidence": 0.7352901101112366
+    },
+    {
+        "x": 98,
+        "y": 275,
+        "type": "Ending",
+        "angle": 236.31,
+        "confidence": 0.3995479345321655
+    },
+    {
+        "x": 79,
+        "y": 279,
+        "type": "Ending",
+        "angle": 232.13,
+        "confidence": 0.7046746611595154
+    },
+    {
+        "x": 159,
+        "y": 289,
+        "type": "Ending",
+        "angle": 315.0,
+        "confidence": 0.5939272046089172
+    },
+    {
+        "x": 263,
+        "y": 291,
+        "type": "Ending",
+        "angle": 304.99,
+        "confidence": 0.591172456741333
+    },
+    {
+        "x": 87,
+        "y": 307,
+        "type": "Ending",
+        "angle": 214.99,
+        "confidence": 0.5439839959144592
+    },
+    {
+        "x": 148,
+        "y": 313,
+        "type": "Ending",
+        "angle": 333.43,
+        "confidence": 0.4906536936759949
+    },
+    {
+        "x": 107,
+        "y": 337,
+        "type": "Ending",
+        "angle": 16.7,
+        "confidence": 0.41346031427383423
+    },
+    {
+        "x": 133,
+        "y": 51,
+        "type": "Bifurcation",
+        "angle": 198.94,
+        "confidence": 0.7520009875297546
+    },
+    {
+        "x": 178,
+        "y": 60,
+        "type": "Bifurcation",
+        "angle": 336.55,
+        "confidence": 0.7542046904563904
+    },
+    {
+        "x": 52,
+        "y": 91,
+        "type": "Bifurcation",
+        "angle": 48.63,
+        "confidence": 0.7474420070648193
+    },
+    {
+        "x": 133,
+        "y": 128,
+        "type": "Bifurcation",
+        "angle": 239.94,
+        "confidence": 0.625829815864563
+    },
+    {
+        "x": 260,
+        "y": 143,
+        "type": "Bifurcation",
+        "angle": 302.22,
+        "confidence": 0.815029501914978
+    },
+    {
+        "x": 114,
+        "y": 164,
+        "type": "Bifurcation",
+        "angle": 251.57,
+        "confidence": 0.7696256637573242
+    },
+    {
+        "x": 207,
+        "y": 191,
+        "type": "Bifurcation",
+        "angle": 111.79,
+        "confidence": 0.7806599140167236
+    },
+    {
+        "x": 119,
+        "y": 195,
+        "type": "Bifurcation",
+        "angle": 263.67,
+        "confidence": 0.7561051249504089
+    },
+    {
+        "x": 195,
+        "y": 213,
+        "type": "Bifurcation",
+        "angle": 121.72,
+        "confidence": 0.7335371971130371
+    },
+    {
+        "x": 306,
+        "y": 224,
+        "type": "Bifurcation",
+        "angle": 101.19,
+        "confidence": 0.861016035079956
+    },
+    {
+        "x": 104,
+        "y": 267,
+        "type": "Bifurcation",
+        "angle": 279.07,
+        "confidence": 0.29003167152404785
+    },
+    {
+        "x": 120,
+        "y": 286,
+        "type": "Bifurcation",
+        "angle": 140.25,
+        "confidence": 0.6120399832725525
+    },
+    {
+        "x": 187,
+        "y": 329,
+        "type": "Bifurcation",
+        "angle": 159.41,
+        "confidence": 0.5256862044334412
+    },
+    {
+        "x": 245,
+        "y": 342,
+        "type": "Bifurcation",
+        "angle": 137.55,
+        "confidence": 0.5986811518669128
+    }
+]

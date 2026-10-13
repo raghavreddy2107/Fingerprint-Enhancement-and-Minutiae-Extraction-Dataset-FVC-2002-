@@ -1,0 +1,198 @@
+[
+    {
+        "x": 21,
+        "y": 63,
+        "type": "Ending",
+        "angle": 214.99,
+        "confidence": 0.27226927876472473
+    },
+    {
+        "x": 84,
+        "y": 75,
+        "type": "Ending",
+        "angle": 26.57,
+        "confidence": 0.706483781337738
+    },
+    {
+        "x": 200,
+        "y": 86,
+        "type": "Ending",
+        "angle": 180.0,
+        "confidence": 0.4886240065097809
+    },
+    {
+        "x": 45,
+        "y": 88,
+        "type": "Ending",
+        "angle": 30.96,
+        "confidence": 0.7463483214378357
+    },
+    {
+        "x": 185,
+        "y": 97,
+        "type": "Ending",
+        "angle": 163.3,
+        "confidence": 0.6400953531265259
+    },
+    {
+        "x": 165,
+        "y": 118,
+        "type": "Ending",
+        "angle": 158.2,
+        "confidence": 0.5869677662849426
+    },
+    {
+        "x": 60,
+        "y": 124,
+        "type": "Ending",
+        "angle": 38.66,
+        "confidence": 0.6402668356895447
+    },
+    {
+        "x": 71,
+        "y": 130,
+        "type": "Ending",
+        "angle": 45.0,
+        "confidence": 0.7125248908996582
+    },
+    {
+        "x": 145,
+        "y": 139,
+        "type": "Ending",
+        "angle": 135.0,
+        "confidence": 0.46966683864593506
+    },
+    {
+        "x": 179,
+        "y": 139,
+        "type": "Ending",
+        "angle": 135.0,
+        "confidence": 0.5136017203330994
+    },
+    {
+        "x": 121,
+        "y": 143,
+        "type": "Ending",
+        "angle": 48.01,
+        "confidence": 0.6389881372451782
+    },
+    {
+        "x": 141,
+        "y": 144,
+        "type": "Ending",
+        "angle": 124.99,
+        "confidence": 0.35442227125167847
+    },
+    {
+        "x": 99,
+        "y": 145,
+        "type": "Ending",
+        "angle": 55.01,
+        "confidence": 0.6591421365737915
+    },
+    {
+        "x": 90,
+        "y": 150,
+        "type": "Ending",
+        "angle": 41.99,
+        "confidence": 0.6085853576660156
+    },
+    {
+        "x": 131,
+        "y": 155,
+        "type": "Ending",
+        "angle": 55.01,
+        "confidence": 0.2842470407485962
+    },
+    {
+        "x": 55,
+        "y": 162,
+        "type": "Ending",
+        "angle": 221.99,
+        "confidence": 0.6670828461647034
+    },
+    {
+        "x": 38,
+        "y": 178,
+        "type": "Ending",
+        "angle": 48.01,
+        "confidence": 0.4833115339279175
+    },
+    {
+        "x": 146,
+        "y": 179,
+        "type": "Ending",
+        "angle": 106.7,
+        "confidence": 0.3676096796989441
+    },
+    {
+        "x": 90,
+        "y": 201,
+        "type": "Ending",
+        "angle": 34.99,
+        "confidence": 0.4828193187713623
+    },
+    {
+        "x": 51,
+        "y": 214,
+        "type": "Ending",
+        "angle": 228.01,
+        "confidence": 0.5958274006843567
+    },
+    {
+        "x": 210,
+        "y": 215,
+        "type": "Ending",
+        "angle": 11.31,
+        "confidence": 0.5335980653762817
+    },
+    {
+        "x": 73,
+        "y": 234,
+        "type": "Ending",
+        "angle": 221.99,
+        "confidence": 0.3661140501499176
+    },
+    {
+        "x": 94,
+        "y": 254,
+        "type": "Ending",
+        "angle": 206.57,
+        "confidence": 0.31859081983566284
+    },
+    {
+        "x": 160,
+        "y": 266,
+        "type": "Ending",
+        "angle": 11.31,
+        "confidence": 0.2581515610218048
+    },
+    {
+        "x": 178,
+        "y": 287,
+        "type": "Ending",
+        "angle": 196.7,
+        "confidence": 0.3473612368106842
+    },
+    {
+        "x": 154,
+        "y": 293,
+        "type": "Ending",
+        "angle": 11.31,
+        "confidence": 0.3770773708820343
+    },
+    {
+        "x": 167,
+        "y": 67,
+        "type": "Bifurcation",
+        "angle": 8.5,
+        "confidence": 0.6918504238128662
+    },
+    {
+        "x": 194,
+        "y": 225,
+        "type": "Bifurcation",
+        "angle": 187.63,
+        "confidence": 0.3992520570755005
+    }
+]

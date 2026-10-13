@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Latent · Fingerprint identification</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#0b1011; --desk:#121a1b; --panel:#182223; --line:#2a3a3b;
+  --lamp:#f0a93b; --uv:#62e6d2; --ink-red:#d2452f; --ink-green:#3aa56a;
+  --paper:#d9cfb4; --paper-2:#cbbf9f; --paper-ink:#2a2118; --text:#e6e1d3; --muted:#8fa0a0;
+  --type:"Special Elite","Courier New",monospace;
+  --sans:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{color-scheme:dark}
+body{margin:0;min-height:100vh;background:var(--night);color:var(--text);font:15px/1.5 var(--sans);overflow-x:hidden}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--lamp);outline-offset:2px}
+
+/* ---------- background: desk lamp through venetian blinds + latent print ---------- */
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;
+  background:radial-gradient(1200px 700px at 12% -10%,#1d2b2c 0%,transparent 60%),radial-gradient(900px 600px at 100% 100%,#101a1b 0%,var(--night) 70%)}
+.bg::before{content:"";position:absolute;inset:-20%;
+  background:repeating-linear-gradient(168deg,rgba(240,169,59,.13) 0 42px,transparent 42px 96px);
+  -webkit-mask-image:radial-gradient(70% 60% at 8% 0%,#000 0%,transparent 75%);mask-image:radial-gradient(70% 60% at 8% 0%,#000 0%,transparent 75%);
+  animation:sway 28s ease-in-out infinite alternate}
+@keyframes sway{to{transform:translate3d(30px,18px,0)}}
+.bg svg{position:absolute;right:-14vw;bottom:-18vh;width:78vw;max-width:1100px;opacity:.055;color:var(--uv)}
+.bg::after{content:"";position:absolute;inset:0;opacity:.35;mix-blend-mode:overlay;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+
+/* ---------- header ---------- */
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px clamp(16px,4vw,48px)}
+.brand{display:flex;align-items:center;gap:14px}
+.brand svg{width:38px;height:38px;color:var(--lamp)}
+.brand h1{margin:0;font:400 30px/1 var(--type);letter-spacing:.02em}
+.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}
+.roster{font:12.5px var(--mono);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:rgba(18,26,27,.7);display:flex;align-items:center;gap:8px}
+.roster i{width:7px;height:7px;border-radius:50%;background:var(--ink-green);box-shadow:0 0 8px var(--ink-green)}
+.roster.off i{background:var(--ink-red);box-shadow:0 0 8px var(--ink-red)}
+
+main{display:grid;grid-template-columns:minmax(320px,410px) 1fr;gap:28px;padding:6px clamp(16px,4vw,48px) 60px;max-width:1380px;margin:0 auto;align-items:start}
+@media(max-width:940px){main{grid-template-columns:1fr}}
+
+/* ---------- case-file intake card ---------- */
+.casefile{position:relative;background:linear-gradient(180deg,var(--paper),var(--paper-2));color:var(--paper-ink);border-radius:4px 14px 4px 4px;padding:26px 24px 24px;box-shadow:0 30px 60px -20px #000c,0 2px 0 #fff3 inset}
+.casefile::before{content:"";position:absolute;top:-14px;left:0;width:150px;height:16px;background:var(--paper);border-radius:8px 8px 0 0;clip-path:polygon(0 100%,8% 0,92% 0,100% 100%)}
+.casefile h2{margin:0 0 4px;font:400 22px var(--type)}
+.casefile .sub{margin:0 0 20px;font-size:13px;color:#5b4f3d}
+.field{margin-bottom:18px}
+.field>label,.field>span.lab{display:block;font-weight:600;font-size:13px;margin-bottom:6px}
+
+.drop{position:relative;display:grid;place-items:center;text-align:center;min-height:190px;border:2px dashed #7d6f55;border-radius:8px;background:#0e1415;color:var(--text);cursor:pointer;overflow:hidden;transition:border-color .2s,background .2s}
+.drop:hover,.drop.over{border-color:var(--lamp);background:#121b1c}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.drop .hint{padding:18px;pointer-events:none}
+.drop .hint svg{width:46px;height:46px;color:var(--lamp);margin-bottom:8px}
+.drop .hint b{display:block;font-weight:600}
+.drop .hint small{color:var(--muted)}
+.drop img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:invert(1) contrast(1.15);pointer-events:none}
+.drop .fname{position:absolute;left:0;right:0;bottom:0;padding:6px 10px;background:#000a;font:12px var(--mono);color:var(--text);text-align:left;pointer-events:none}
+
+.seg{display:grid;grid-template-columns:1fr 1fr;background:#0e1415;border-radius:8px;padding:4px;gap:4px}
+.seg button{border:0;background:none;padding:10px 8px;border-radius:5px;cursor:pointer;color:var(--muted);font-weight:600;transition:background .15s,color .15s}
+.seg button[aria-pressed=true]{background:var(--lamp);color:#2a1a05}
+.seg-note{margin:8px 0 0;font-size:12.5px;color:#5b4f3d;min-height:36px}
+
+.textin{width:100%;padding:11px 12px;border-radius:6px;border:1px solid #8d7f63;background:#efe6cd;color:var(--paper-ink);font-family:var(--type);font-size:16px}
+.textin::placeholder{color:#8b7e63}
+.id-field[hidden]{display:none}
+
+details{margin:0 0 18px;font-size:13px}
+details summary{cursor:pointer;font-weight:600}
+details .inner{padding:12px 0 0}
+details input[type=range]{width:100%;accent-color:#9b5a07}
+.thr-row{display:flex;justify-content:space-between;font:12.5px var(--mono)}
+.chk{display:flex;gap:8px;align-items:flex-start;margin-top:12px;color:#4a3f2e}
+.chk input{margin-top:3px;accent-color:#9b5a07}
+
+.go{width:100%;border:0;border-radius:8px;padding:14px;font:400 19px var(--type);background:#1a1308;color:var(--lamp);cursor:pointer;box-shadow:0 6px 0 #0a0703;transition:transform .08s,box-shadow .08s,opacity .2s}
+.go:hover:not(:disabled){transform:translateY(1px);box-shadow:0 5px 0 #0a0703}
+.go:active:not(:disabled){transform:translateY(5px);box-shadow:0 1px 0 #0a0703}
+.go:disabled{opacity:.45;cursor:not-allowed}
+.err{margin:14px 0 0;padding:10px 12px;border-left:4px solid var(--ink-red);background:#d2452f1f;color:#6d1c0e;font-size:13.5px;border-radius:0 4px 4px 0}
+.err[hidden]{display:none}
+
+/* ---------- light table (viewer) ---------- */
+.stage{position:relative;background:linear-gradient(180deg,#0f1819,#0a1011);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 30px 60px -30px #000}
+.bar{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;margin-bottom:12px}
+.tabs{display:flex;gap:4px;background:#0a1011;border:1px solid var(--line);border-radius:8px;padding:3px}
+.tabs button{border:0;background:none;padding:6px 12px;border-radius:5px;color:var(--muted);cursor:pointer;font-size:13px}
+.tabs button[aria-pressed=true]{background:var(--panel);color:var(--text)}
+.tog{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer}
+.tog input{accent-color:var(--lamp)}
+.tog:has(input:disabled),.tabs:has(button:disabled){opacity:.4}
+
+.table{position:relative;border-radius:8px;overflow:hidden;background:#05090a;aspect-ratio:4/3;max-height:68vh;margin:0 auto;
+  background-image:linear-gradient(#ffffff0b 1px,transparent 1px),linear-gradient(90deg,#ffffff0b 1px,transparent 1px);background-size:32px 32px}
+.table .corner{position:absolute;width:22px;height:22px;border:2px solid var(--lamp);opacity:.8;z-index:4}
+.table .c1{top:8px;left:8px;border-right:0;border-bottom:0}.table .c2{top:8px;right:8px;border-left:0;border-bottom:0}
+.table .c3{bottom:8px;left:8px;border-right:0;border-top:0}.table .c4{bottom:8px;right:8px;border-left:0;border-top:0}
+.table img,.table canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.table img.invert{filter:invert(1) contrast(1.2) brightness(.95)}
+.idle{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--muted);z-index:2}
+.idle svg{width:min(34%,190px);color:var(--uv);opacity:.22;margin-bottom:10px}
+.idle p{margin:0;font-family:var(--type);font-size:18px;color:#a9b7b3}
+.beam{position:absolute;left:0;right:0;height:90px;z-index:3;display:none;pointer-events:none;
+  background:linear-gradient(180deg,transparent,#62e6d233 55%,#62e6d2cc 98%,#bffff4 100%);box-shadow:0 10px 30px #62e6d255}
+.table.scanning .beam{display:block;animation:sweep 1.9s linear infinite}
+.table.scanning img{filter:invert(1) contrast(1.2) hue-rotate(120deg) saturate(2)}
+@keyframes sweep{from{top:-90px}to{top:100%}}
+.steps{position:absolute;left:14px;bottom:14px;z-index:5;font:12.5px var(--mono);display:none;flex-direction:column;gap:3px;background:#05090acc;padding:10px 12px;border-radius:6px;border:1px solid var(--line)}
+.table.scanning .steps{display:flex}
+.steps div{color:#5d7070}.steps div.on{color:var(--uv)}.steps div.done{color:var(--muted)}
+.steps div.done::before{content:"✓ "}.steps div.on::before{content:"▸ "}.steps div::before{content:"  "}
+
+.stamp{position:absolute;right:18px;top:18px;z-index:6;font-family:var(--type);font-size:clamp(22px,3.4vw,40px);line-height:1;padding:10px 16px 8px;border:4px solid currentColor;border-radius:6px;transform:rotate(-8deg);letter-spacing:.04em;text-align:center;background:#05090a99;
+  -webkit-mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='t'><feTurbulence baseFrequency='.8' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 2.1'/></filter><rect width='100%' height='100%' filter='url(%23t)'/></svg>");mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='t'><feTurbulence baseFrequency='.8' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 2.1'/></filter><rect width='100%' height='100%' filter='url(%23t)'/></svg>")}
+.stamp small{display:block;font:500 12px var(--mono);letter-spacing:0;margin-top:6px}
+.stamp[hidden]{display:none}
+.stamp.green{color:#52d68a}.stamp.red{color:#ff6a50}.stamp.amber{color:var(--lamp)}
+.stamp.slam{animation:slam .45s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes slam{0%{transform:rotate(-8deg) scale(2.6);opacity:0}60%{opacity:1}100%{transform:rotate(-8deg) scale(1)}}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:12px}
+.legend span{display:flex;align-items:center;gap:7px}
+.legend i{width:11px;height:11px;display:inline-block}
+.lg-e{border:2px solid var(--lamp);border-radius:50%}.lg-b{border:2px solid var(--uv)}
+
+/* ---------- dossier (result) ---------- */
+.dossier{margin-top:22px;background:linear-gradient(180deg,var(--paper),var(--paper-2));color:var(--paper-ink);border-radius:6px;padding:22px 24px;box-shadow:0 30px 60px -24px #000d;display:none}
+.dossier.show{display:block;animation:rise .4s ease-out both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+.dossier h3{margin:0 0 2px;font:400 26px var(--type)}
+.dossier .lede{margin:0 0 18px;color:#5b4f3d}
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:20px}
+.nums div{border:1px solid #9a8c6f;border-radius:6px;padding:8px 10px;background:#e7ddc3}
+.nums b{display:block;font:500 20px var(--mono)}.nums span{font-size:12px;color:#5b4f3d}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.cmp figure{margin:0}
+.cmp .ph{aspect-ratio:4/3;background:#0b1011;border-radius:5px;overflow:hidden;border:1px solid #6e6249}
+.cmp img{width:100%;height:100%;object-fit:contain;filter:invert(1) contrast(1.2)}
+.cmp figcaption{font-size:12.5px;margin-top:5px;color:#4a3f2e}
+.cmp .ph.none{display:grid;place-items:center;color:var(--muted);font-size:13px}
+.rank{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.rank li{display:grid;grid-template-columns:28px 1fr 56px;gap:4px 12px;align-items:center}
+.rank .pos{font:400 20px var(--type);text-align:center}
+.rank .nm{font-weight:600}.rank .nm small{font-weight:400;color:#5b4f3d;margin-left:6px;font-family:var(--mono)}
+.rank .val{font:500 14px var(--mono);text-align:right}
+.meter{grid-column:2/3;position:relative;height:10px;background:#a99b7d;border-radius:5px;overflow:visible}
+.meter i{display:block;height:100%;border-radius:5px;background:#4a3f2e;width:0;transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.meter i.hit{background:#2f7f52}.meter i.miss{background:#a8402d}
+.meter u{position:absolute;top:-4px;bottom:-4px;width:2px;background:#1a1308;text-decoration:none}
+.meter u::after{content:"threshold";position:absolute;top:-16px;left:-22px;font:11px var(--mono);color:#1a1308;white-space:nowrap;display:none}
+.rank li:first-child .meter u::after,.single .meter u::after{display:block}
+.rank li:first-child{margin-top:14px}
+.single{display:grid;grid-template-columns:1fr 56px;gap:12px;align-items:center;margin-top:18px}
+.single .meter{grid-column:1}
+.note{margin:18px 0 0;padding-top:14px;border-top:1px dashed #8d7f63;font-size:13px;color:#4a3f2e}
+@media(max-width:560px){.cmp{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true">
+  <svg viewBox="0 0 600 760" fill="none" stroke="currentColor" stroke-width="5">
+    <defs><filter id="warp" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".012 .02" numOctaves="3" seed="7"/><feDisplacementMap in="SourceGraphic" scale="55"/></filter></defs>
+    <g filter="url(#warp)" id="ridges"></g>
+  </svg>
+</div>
+
+<header>
+  <div class="brand">
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M10 20c0-8 6-14 14-14s14 6 14 14"/><path d="M15 38c-2-5-3-9-3-14 0-6 5-10 12-10s12 4 12 10c0 5-1 10-3 15"/><path d="M20 42c-2-5-3-10-3-18 0-4 3-6 7-6s7 2 7 6c0 6-1 11-3 16"/><path d="M24 24c0 6 1 11 3 15"/></svg>
+    <div><h1>Latent</h1><p>Fingerprint verification and identification</p></div>
+  </div>
+  <div class="roster" id="roster"><i></i><span>Connecting to the archive…</span></div>
+</header>
+
+<main>
+  <form class="casefile" id="form" autocomplete="off">
+    <h2>New case</h2>
+    <p class="sub">Add a print, choose a check, and run it against the archive.</p>
+
+    <div class="field">
+      <span class="lab">Fingerprint image</span>
+      <label class="drop" id="drop">
+        <input type="file" id="file" accept="image/*,.tif,.tiff,.bmp">
+        <div class="hint" id="hint">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M24 33V10M15 19l9-9 9 9"/><path d="M8 33v5a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2v-5"/></svg>
+          <b>Drop a print here or click to browse</b>
+          <small>.tif · .jpg · .png · .bmp</small>
+        </div>
+        <img id="prev" alt="" hidden><div class="fname" id="fname" hidden></div>
+      </label>
+    </div>
+
+    <div class="field">
+      <span class="lab">Check to run</span>
+      <div class="seg" role="group" aria-label="Mode">
+        <button type="button" id="m-verify" aria-pressed="true">Verify</button>
+        <button type="button" id="m-identify" aria-pressed="false">Identify</button>
+      </div>
+      <p class="seg-note" id="segnote"></p>
+    </div>
+
+    <div class="field id-field" id="idField">
+      <label for="identity">Claimed identity</label>
+      <input class="textin" id="identity" list="people" placeholder="e.g. Subject 07 or f7">
+      <datalist id="people"></datalist>
+    </div>
+
+    <details>
+      <summary>Advanced settings</summary>
+      <div class="inner">
+        <div class="thr-row"><span>Match threshold</span><span id="thrVal">0.345</span></div>
+        <input type="range" id="thr" min="0.15" max="0.8" step="0.005" value="0.345" aria-label="Match threshold">
+        <label class="chk"><input type="checkbox" id="excl" checked><span>Skip the enrolled copy of this exact image. Without this, an image that is already enrolled matches itself perfectly.</span></label>
+      </div>
+    </details>
+
+    <button class="go" id="go" type="submit" disabled>Run analysis</button>
+    <p class="err" id="err" role="alert" hidden></p>
+  </form>
+
+  <section>
+    <div class="stage">
+      <div class="bar">
+        <div class="tabs" id="tabs" role="group" aria-label="Image layer">
+          <button type="button" data-l="original" aria-pressed="true" disabled>Print</button>
+          <button type="button" data-l="binary" aria-pressed="false" disabled>Ridges</button>
+          <button type="button" data-l="skeleton" aria-pressed="false" disabled>Skeleton</button>
+        </div>
+        <label class="tog"><input type="checkbox" id="showM" checked disabled> Show minutiae</label>
+      </div>
+      <div class="table" id="table">
+        <i class="corner c1"></i><i class="corner c2"></i><i class="corner c3"></i><i class="corner c4"></i>
+        <div class="idle" id="idle">
+          <div>
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M10 20c0-8 6-14 14-14s14 6 14 14"/><path d="M15 38c-2-5-3-9-3-14 0-6 5-10 12-10s12 4 12 10c0 5-1 10-3 15"/><path d="M20 42c-2-5-3-10-3-18 0-4 3-6 7-6s7 2 7 6c0 6-1 11-3 16"/><path d="M24 24c0 6 1 11 3 15"/></svg>
+            <p>Waiting for evidence</p>
+          </div>
+        </div>
+        <img id="view" class="invert" alt="Analysed fingerprint" hidden>
+        <canvas id="cv"></canvas>
+        <div class="beam"></div>
+        <div class="steps" id="steps"></div>
+        <div class="stamp" id="stamp" hidden></div>
+      </div>
+      <div class="legend"><span><i class="lg-e"></i>Ridge ending</span><span><i class="lg-b"></i>Bifurcation</span><span id="legCount"></span></div>
+    </div>
+
+    <article class="dossier" id="dossier" aria-live="polite"></article>
+  </section>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const S = {file:null, mode:'verify', layer:'original', data:null, threshold:0.345, drawToken:0};
+
+/* ----- background latent print: concentric whorl ----- */
+(() => {
+  const g = $('ridges'); let h = '';
+  for (let i = 1; i < 34; i++) h += `<ellipse cx="300" cy="390" rx="${i*8.4}" ry="${i*11.2}" opacity="${i%7===0?.5:1}"/>`;
+  g.innerHTML = h;
+})();
+
+/* ----- archive status ----- */
+fetch('/api/status').then(r => r.json()).then(s => {
+  $('roster').querySelector('span').textContent = `${s.subjects.length} subjects · ${s.templates} prints on file`;
+  S.threshold = s.threshold; $('thr').value = s.threshold; $('thrVal').textContent = s.threshold.toFixed(3);
+  $('people').innerHTML = '';
+  s.subjects.forEach(p => { const o = document.createElement('option'); o.value = p.label; o.label = p.id; $('people').appendChild(o); });
+  if (!s.templates) { $('roster').classList.add('off'); $('roster').querySelector('span').textContent = 'Archive is empty. Run batch_run.py first'; }
+}).catch(() => { $('roster').classList.add('off'); $('roster').querySelector('span').textContent = 'Server not reachable'; });
+
+/* ----- file intake ----- */
+function setFile(f) {
+  if (!f) return;
+  S.file = f; hideErr();
+  const img = $('prev'); img.hidden = false; $('hint').style.opacity = 0;
+  img.src = URL.createObjectURL(f);
+  img.onerror = () => { img.hidden = true; $('hint').style.opacity = 1; $('hint').querySelector('b').textContent = 'Preview unavailable in this browser. File is ready.'; };
+  $('fname').hidden = false; $('fname').textContent = f.name;
+  refresh();
+}
+$('file').addEventListener('change', e => setFile(e.target.files[0]));
+['dragenter','dragover'].forEach(ev => $('drop').addEventListener(ev, e => { e.preventDefault(); $('drop').classList.add('over'); }));
+['dragleave','drop'].forEach(ev => $('drop').addEventListener(ev, e => { e.preventDefault(); $('drop').classList.remove('over'); }));
+$('drop').addEventListener('drop', e => { const f = e.dataTransfer.files[0]; if (f) { $('file').files = e.dataTransfer.files; setFile(f); } });
+
+/* ----- mode ----- */
+const NOTES = {
+  verify: 'Checks the print against one named person. Result: access granted or denied.',
+  identify: 'Searches every print on file and names the closest person, or reports no match.'
+};
+function setMode(m) {
+  S.mode = m;
+  $('m-verify').setAttribute('aria-pressed', m === 'verify');
+  $('m-identify').setAttribute('aria-pressed', m === 'identify');
+  $('idField').hidden = m !== 'verify';
+  $('segnote').textContent = NOTES[m];
+  $('go').textContent = m === 'verify' ? 'Verify identity' : 'Search archive';
+  refresh();
+}
+$('m-verify').onclick = () => setMode('verify');
+$('m-identify').onclick = () => setMode('identify');
+$('identity').addEventListener('input', refresh);
+$('thr').addEventListener('input', e => { $('thrVal').textContent = (+e.target.value).toFixed(3); });
+function refresh() { $('go').disabled = !S.file || (S.mode === 'verify' && !$('identity').value.trim()); }
+setMode('verify');
+
+function showErr(t) { $('err').hidden = false; $('err').textContent = t; }
+function hideErr() { $('err').hidden = true; }
+
+/* ----- viewer ----- */
+const view = $('view'), cv = $('cv'), table = $('table');
+function setLayer(l) {
+  S.layer = l;
+  document.querySelectorAll('#tabs button').forEach(b => b.setAttribute('aria-pressed', b.dataset.l === l));
+  if (!S.data) return;
+  view.src = S.data.layers[l];
+  view.classList.toggle('invert', l === 'original');
+}
+document.querySelectorAll('#tabs button').forEach(b => b.onclick = () => setLayer(b.dataset.l));
+$('showM').onchange = () => drawMinutiae(false);
+
+function fitCanvas() {
+  const r = table.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+  cv.width = r.width * d; cv.height = r.height * d;
+  const w = S.data.image.w, h = S.data.image.h;
+  const s = Math.min(r.width / w, r.height / h);
+  return {d, s, ox: (r.width - w * s) / 2, oy: (r.height - h * s) / 2};
+}
+function drawMinutiae(animate) {
+  const token = ++S.drawToken;
+  if (!S.data) return;
+  const {d, s, ox, oy} = fitCanvas();
+  const ctx = cv.getContext('2d'); ctx.setTransform(d, 0, 0, d, 0, 0);
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  if (!$('showM').checked) return;
+  const list = S.data.minutiae;
+  const paint = m => {
+    const x = ox + m.x * s, y = oy + m.y * s, a = -m.angle * Math.PI / 180;
+    const col = m.type === 'Ending' ? '#f0a93b' : '#62e6d2';
+    ctx.strokeStyle = col; ctx.lineWidth = 1.6; ctx.shadowColor = col; ctx.shadowBlur = 8;
+    ctx.beginPath();
+    if (m.type === 'Ending') ctx.arc(x, y, 6, 0, 7); else ctx.rect(x - 5.5, y - 5.5, 11, 11);
+    ctx.moveTo(x, y); ctx.lineTo(x + Math.cos(a) * 17, y + Math.sin(a) * 17);
+    ctx.stroke();
+  };
+  if (!animate) { list.forEach(paint); return; }
+  let i = 0; const step = Math.max(1, Math.ceil(list.length / 40));
+  (function tick() {
+    if (token !== S.drawToken) return;
+    for (let k = 0; k < step && i < list.length; k++) paint(list[i++]);
+    if (i < list.length) setTimeout(tick, 30);
+  })();
+}
+window.addEventListener('resize', () => drawMinutiae(false));
+
+/* ----- scanning animation (cosmetic; real work happens on the server) ----- */
+const STEP_NAMES = ['Isolating the print', 'Enhancing ridges', 'Thinning to skeleton', 'Locating minutiae', 'Comparing with the archive'];
+let stepTimer;
+function startScan() {
+  table.classList.add('scanning'); $('idle').hidden = true; $('stamp').hidden = true;
+  const box = $('steps'); box.innerHTML = '';
+  STEP_NAMES.forEach(n => { const d = document.createElement('div'); d.textContent = n; box.appendChild(d); });
+  let i = 0;
+  const tick = () => {
+    [...box.children].forEach((c, k) => c.className = k < i ? 'done' : k === i ? 'on' : '');
+    if (i < STEP_NAMES.length - 1) { i++; stepTimer = setTimeout(tick, 650); }
+  };
+  tick();
+}
+function stopScan() { clearTimeout(stepTimer); table.classList.remove('scanning'); }
+
+/* ----- submit ----- */
+$('form').addEventListener('submit', async e => {
+  e.preventDefault(); hideErr();
+  $('go').disabled = true; $('dossier').classList.remove('show'); $('legCount').textContent = '';
+  const fd = new FormData();
+  fd.append('image', S.file); fd.append('mode', S.mode); fd.append('identity', $('identity').value);
+  fd.append('threshold', $('thr').value); fd.append('exclude_identical', $('excl').checked ? '1' : '0');
+  // show the uploaded print under the beam immediately where the browser can render it
+  if (!$('prev').hidden) { view.hidden = false; view.src = $('prev').src; view.classList.add('invert'); }
+  S.data = null; cv.getContext('2d').clearRect(0, 0, cv.width, cv.height);
+  startScan();
+  const minShow = new Promise(r => setTimeout(r, 2600));
+  try {
+    const [resp] = await Promise.all([fetch('/api/analyze', {method: 'POST', body: fd}), minShow]);
+    const data = await resp.json();
+    stopScan();
+    if (!resp.ok) { showErr(data.error || 'Analysis failed.'); if ($('prev').hidden) $('idle').hidden = false; return; }
+    render(data);
+  } catch (err) {
+    stopScan(); showErr('Could not reach the server. Is app.py still running?');
+  } finally { refresh(); }
+});
+
+/* ----- render result ----- */
+function el(tag, cls, text) { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+
+function render(d) {
+  S.data = d; view.hidden = false;
+  document.querySelectorAll('#tabs button').forEach(b => b.disabled = false); $('showM').disabled = false;
+  setLayer('original');
+  view.onload = () => drawMinutiae(true);
+  if (view.complete) drawMinutiae(true);
+  $('legCount').textContent = `${d.counts.total} minutiae found (${d.counts.endings} endings, ${d.counts.bifurcations} bifurcations)`;
+
+  const st = $('stamp'); st.hidden = false; st.className = 'stamp'; st.textContent = '';
+  const big = el('div', null, ''); const small = el('small', null, '');
+  const map = {
+    granted:  ['ACCESS GRANTED', 'green'], denied: ['ACCESS DENIED', 'red'],
+    identified: ['IDENTIFIED', 'green'], ambiguous: ['INCONCLUSIVE', 'amber'], unknown: ['NO MATCH ON FILE', 'red'], poor_quality: ['PRINT UNUSABLE', 'amber']
+  };
+  const [txt, colr] = map[d.decision]; big.textContent = txt; st.classList.add(colr);
+  if (d.decision === 'identified') small.textContent = d.candidates[0].label;
+  if (d.decision === 'ambiguous') small.textContent = 'too close to call';
+  if (d.decision === 'granted' || d.decision === 'denied') small.textContent = d.claimed.label;
+  st.append(big, small); void st.offsetWidth; st.classList.add('slam');
+
+  buildDossier(d);
+}
+
+function meter(score, thr, hit) {
+  const m = el('div', 'meter'); const i = el('i', hit ? 'hit' : 'miss'); const u = el('u');
+  u.style.left = Math.min(100, thr * 100) + '%'; m.append(i, u);
+  requestAnimationFrame(() => requestAnimationFrame(() => i.style.width = Math.min(100, score * 100) + '%'));
+  return m;
+}
+function fig(src, caption) {
+  const f = el('figure'); const ph = el('div', 'ph');
+  if (src) { const im = el('img'); im.alt = caption; im.src = src; im.onerror = () => { ph.className = 'ph none'; ph.textContent = 'Image not found'; }; ph.appendChild(im); }
+  else { ph.className = 'ph none'; ph.textContent = 'Original not available'; }
+  f.append(ph, el('figcaption', null, caption)); return f;
+}
+function numbox(v, l) { const n = el('div'); n.append(el('b', null, v), el('span', null, l)); return n; }
+
+function buildDossier(d) {
+  const D = $('dossier'); D.innerHTML = '';
+  const thr = d.threshold;
+  const nums = el('div', 'nums');
+  nums.append(numbox(d.counts.total, 'minutiae found'), numbox(d.compared ?? '–', 'prints compared'), numbox(thr.toFixed(3), 'threshold'), numbox(d.elapsed + ' s', 'analysis time'));
+
+  if (d.decision === 'poor_quality') {
+    D.append(el('h3', null, 'Print unusable'), el('p', 'lede', d.message), nums);
+  } else if (d.decision === 'granted' || d.decision === 'denied') {
+    const c = d.claimed, ok = d.decision === 'granted';
+    D.append(el('h3', null, ok ? 'Access granted' : 'Access denied'),
+      el('p', 'lede', ok ? `The print matches ${c.label}.` : `The print does not match ${c.label}.`), nums);
+    const cmp = el('div', 'cmp');
+    cmp.append(fig(d.layers.original, 'Submitted print'), fig(`/api/enrolled/${c.best_sample}.png`, `${c.label} on file (${c.best_sample})`));
+    D.append(cmp);
+    const row = el('div', 'single'); row.append(meter(c.score, thr, ok), el('span', 'val', c.score.toFixed(2))); D.append(row);
+    D.append(el('p', 'note', ok
+      ? `Best of ${d.compared} enrolled prints scored ${c.score.toFixed(3)}, above the ${thr.toFixed(3)} threshold.`
+      : `Best of ${d.compared} enrolled prints scored ${c.score.toFixed(3)}, below the ${thr.toFixed(3)} threshold.`));
+  } else {
+    const top = d.candidates[0], hit = d.decision === 'identified', amb = d.decision === 'ambiguous';
+    D.append(el('h3', null, hit ? top.label : amb ? 'Inconclusive' : 'No match on file'),
+      el('p', 'lede', hit ? `Closest of ${d.compared} prints in the archive, ${top.best_sample}.` : amb ? `${top.label} scored highest, but only ${d.margin.toFixed(3)} ahead of the next person. A lead of at least ${d.min_margin.toFixed(2)} is needed to name someone.` : `No print in the archive reached the ${thr.toFixed(3)} threshold.`), nums);
+    const cmp = el('div', 'cmp');
+    cmp.append(fig(d.layers.original, 'Submitted print'), fig(`/api/enrolled/${top.best_sample}.png`, `${top.label}, closest on file (${top.best_sample})`));
+    D.append(cmp);
+    const ul = el('ul', 'rank');
+    d.candidates.forEach((c, k) => {
+      const li = el('li'); const pos = el('span', 'pos', String(k + 1));
+      const nm = el('div', 'nm', c.label); nm.append(el('small', null, c.best_sample));
+      li.append(pos, nm, el('span', 'val', c.score.toFixed(2)));
+      li.append(meter(c.score, thr, c.above_threshold)); ul.appendChild(li);
+    });
+    D.append(ul);
+    let note = '';
+    if (hit && d.margin < 0.05) note = `Close call: the runner-up is within ${d.margin.toFixed(3)} of the top score. Treat this as a lead, not a confirmation.`;
+    else if (hit) note = `The top candidate leads the runner-up by ${d.margin.toFixed(3)}.`;
+    else note = 'The best candidates are shown for reference only. None scored high enough to name.';
+    D.append(el('p', 'note', note));
+  }
+  if (d.excluded_identical) D.append(el('p', 'note', 'The enrolled copy of this exact image was skipped, so the result reflects a different impression.'));
+  D.classList.add('show');
+  setTimeout(() => D.scrollIntoView({behavior: 'smooth', block: 'nearest'}), 150);
+}
+</script>
+</body>
+</html>
