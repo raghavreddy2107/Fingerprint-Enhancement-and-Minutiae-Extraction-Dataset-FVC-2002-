@@ -1,0 +1,15 @@
+services:
+  latent:
+    build: .
+    image: latent-fingerprint
+    ports:
+      - "5000:5000"
+    environment:
+      MATCH_WORKERS: "4"        # CPU cores used for identification
+      MATCHER_PROFILE: "v3"     # same profile you evaluated
+      MIN_MARGIN: "0.05"
+    volumes:                    # data stays outside the image
+      - ./results:/data/results:ro
+      - ./fingerprints:/data/fingerprints:ro
+      - ./eval_output:/data/eval_output:ro
+    restart: unless-stopped

@@ -1,0 +1,6 @@
+**/__pycache__
+*.pyc
+results/
+fingerprints/
+eval_output/
+*.zip
